@@ -187,7 +187,7 @@ fn escedula (field:&str) -> bool
         }
     }
     else{}
-    println!("{:?}SUMA", suma);
+    //println!("{:?}SUMA", suma);
     if suma < 10 && valido==1
     {
         let stringaux1= field.chars().nth(9).unwrap().to_string();
@@ -412,7 +412,7 @@ fn es_ruc (field:&str) -> bool
         }
     }
     else{}
-    println!("{:?}SUMAruc", suma);
+    //println!("{:?}SUMAruc", suma);
     if suma < 10 && valido==1
     {
         let stringaux1= field.chars().nth(9).unwrap().to_string();
@@ -639,35 +639,6 @@ fn leer_archivo(path: &str) -> Result<() , Box<dyn Error1>> {
                         //valido=1;
                     }
                 }
-                
-                else if field.chars().count()>=5 && field.chars().count()<=20 && field.chars().all(char::is_alphanumeric)
-                {//Pasaporte
-                    if field.chars().any(|c| matches!(c, 'a'..='z')) || field.chars().any(|c| matches!(c, 'A'..='Z')) || field.contains('ñ') || field.contains('Ñ')
-                    {
-                        //valido = 1;
-                        observacion.push_str("Identificación puede ser pasaporte.");
-                    }
-                    else if field.chars().count()>=10 //VALIDACIÓN POSIBLE CÉDULA
-                    {
-                        if esnumerico(field)==true
-                        {
-                            if escedula(field)==true
-                            {
-                                //valido=1;
-                                observacion.push_str("Es cédula o RUC, no pasaporte.");
-                            }
-                            else if escedula(field)==false
-                            {
-                            }
-                        }
-                        else{}
-                    }   
-                    else
-                    {
-                        //valido = 0;
-                        observacion.push_str("Error en la Identificación.");
-                    }
-                }
                 else if field.chars().count()==13 && field.chars().all(char::is_numeric)
                 {//RUC     
                     if es_ruc(field)==false
@@ -694,6 +665,34 @@ fn leer_archivo(path: &str) -> Result<() , Box<dyn Error1>> {
                         observacion.push_str("Error en el RUC.");
                     }
                 }
+                else if field.chars().count()>=5 && field.chars().count()<=20 && field.chars().all(char::is_alphanumeric)
+                {//Pasaporte
+                    if field.chars().any(|c| matches!(c, 'a'..='z')) || field.chars().any(|c| matches!(c, 'A'..='Z')) || field.contains('ñ') || field.contains('Ñ')
+                    {
+                        //valido = 1;
+                        observacion.push_str("Identificación puede ser pasaporte.");
+                    }
+                    else if field.chars().count()>=10 //VALIDACIÓN POSIBLE CÉDULA
+                    {
+                        if esnumerico(field)==true
+                        {
+                            if escedula(field)==true
+                            {
+                                //valido=1;
+                                observacion.push_str("Es cédula, no pasaporte.");
+                            }
+                            else if escedula(field)==false
+                            {
+                            }
+                        }
+                        else{}
+                    }   
+                    else
+                    {
+                        //valido = 0;
+                        observacion.push_str("Error en la Identificación.");
+                    }
+                }                
                 else
                 {
                     //valido=0;
@@ -1055,3 +1054,4 @@ fn leer_archivo(path: &str) -> Result<() , Box<dyn Error1>> {
     }
     Ok(())
 }
+
