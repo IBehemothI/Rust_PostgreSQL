@@ -654,7 +654,7 @@ fn leer_archivo(path: &str) -> Result<() , Box<dyn Error1>> {
                             if escedula(field)==true
                             {
                                 //valido=1;
-                                observacion.push_str("Es cédula, no pasaporte.");
+                                observacion.push_str("Es cédula o RUC, no pasaporte.");
                             }
                             else if escedula(field)==false
                             {
@@ -914,11 +914,19 @@ fn leer_archivo(path: &str) -> Result<() , Box<dyn Error1>> {
                     let stringaux2= field.chars().nth(1).unwrap().to_string();
                     let segundo : i32 = stringaux2.parse().unwrap();
                     if primero == 0 && segundo == 9
-                    {       
+                    {   
+                        if valido==1
+                        {
+                            valido=1;
+                        }
+                        else if valido==0
+                        {
+                            valido=0;
+                        }
+                        else{}    
                         complemento.push_str("'");
                         complemento.push_str(field);
                         complemento.push_str("',");
-                        valido=1;
                         observacion.push_str(" El número es un celular.");
                     }
                     else
